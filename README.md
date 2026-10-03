@@ -11,7 +11,7 @@ Complementar la señalética del campus con información que cambia o que se con
 ## Usuarios
 
 - Estudiantes de secundaria de Wanda que usan el campus entre turnos escolares.
-- Personal de la Dirección de la Juventud, a cargo de actualizar los datos.
+- Personal de la Dirección, a cargo de actualizar los datos.
 
 ## Estado
 
