@@ -83,6 +83,10 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 - **Diseño:** Figma.
 - **Demo:** GitHub Pages (solo sitios estáticos). Para la demo alcanza con datos en JSON; un backend externo solo si hay que mostrar el panel de carga funcionando.
 - **Stack, backend y estructura de carpetas:** sin definir. Se deciden en la etapa 7.
+- **Figma MCP:** para leer diseños de Figma y pasarlos a código.
+- **Playwright MCP:** para probar la app en navegador (celular, conexión lenta) en la etapa de testing.
+- **Skill Impeccable:** usarla solo como auditor y corrector (audit, critique, harden, clarify, adapt, optimize, polish). No usar bolder, overdrive, delight ni animate. Las decisiones visuales salen de Figma y de la marca del campus, no de la skill.
+- **Skill emil-design-eng:** solo para el pulido final de transiciones, respetando prefers-reduced-motion.
 
 ## Pendientes clave
 
