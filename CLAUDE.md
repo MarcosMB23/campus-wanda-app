@@ -16,7 +16,11 @@ El proyecto completo tiene cuatro ejes:
 ## Usuarios
 
 - **Principal:** estudiantes de secundaria (EPET N° 48, Instituto Nuestra Señora del Iguazú, entre otras) que usan el campus entre turnos escolares.
-- **Secundario:** personal de la Dirección de la Juventud de Wanda, con oficina en el campus. Candidato a cargar y actualizar los datos de la app.
+- **Secundarios:** cargan y actualizan los datos desde el panel de carga, con dos roles:
+  - **Admin** (Dirección del campus): edita todo y administra las cuentas.
+  - **Buffet** (concesionario): solo carta, precios, menú del día, horario y WhatsApp del buffet.
+
+Los estudiantes no crean cuentas.
 
 ## Principio rector
 
@@ -34,8 +38,8 @@ Doble Diamante (Descubrir, Definir, Desarrollar, Entregar) y los 5 planos de Jes
 | Etapa | Estado |
 |---|---|
 | 1. Investigación | Hecha |
-| 2. Definición de funciones | En curso |
-| 3. Arquitectura de información | Pendiente |
+| 2. Definición de funciones | Casi cerrada |
+| 3. Arquitectura de información | En curso |
 | 4. Wireframes y prototipo (Figma) | Pendiente |
 | 5. UI con la marca del campus | Pendiente |
 | 6. Validación (test de usabilidad) | Pendiente |
@@ -45,6 +49,8 @@ Doble Diamante (Descubrir, Definir, Desarrollar, Entregar) y los 5 planos de Jes
 | 10. Despliegue y traspaso | Pendiente |
 
 Regla: las decisiones de diseño se toman en Figma antes de programar.
+
+Cierre de alcance: el alcance se cierra al empezar el prototipo. Las funciones nuevas que surjan después van a una versión futura; los ajustes a funciones existentes sí se aceptan.
 
 ## Filtros para evaluar funciones
 
@@ -59,15 +65,23 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 
 ## Funciones en evaluación
 
-| Función | Estado |
-|---|---|
-| Horarios estimados de colectivos | Cumple F1, F3, F4 y F5. En pausa por F2 (fuente y responsable sin confirmar). |
-| Horarios de apertura del campus | Por evaluar. El valor está en las excepciones, no en el horario fijo. |
-| Agenda de actividades | Por evaluar. Depende de la carga de la Dirección de la Juventud. |
-| Buffet (menú y precios) | En análisis de viabilidad. Depende del protocolo de carga del concesionario. |
-| Mapa o wayfinding interno | Descartada: duplica la señalética. |
+| Función | Prioridad | Detalle |
+|---|---|---|
+| Horario del campus | Must | Estado abierto/cerrado en el inicio, horario semanal y excepciones. Carga: admin. |
+| Novedades | Must | Noticias y eventos del campus. Una novedad destacada aparece en el inicio. Carga: admin. |
+| Inscripción a eventos con cupo | Should | Sin cuenta: nombre, apellido y teléfono. Control de duplicados por teléfono en cada evento. Datos borrados después del evento. |
+| Buffet | Must | Carta, precios y botón de pedido por WhatsApp (wa.me). El menú del día es Could. Carga: rol buffet. |
+| Campus Live | Must (pedido por la Municipalidad) | Reproductor dentro de la app, programación y novedades exclusivas de Campus Live. Estado "en vivo" vía API de YouTube, consultada por el servidor cada 15 minutos. Carga de programación y novedades: admin. |
+| Horarios de colectivos | Should | Pendiente confirmar la fuente de datos. |
+
+**Descartadas:** mapa interno (duplica la señalética), cuentas de estudiantes, últimas transmisiones.
 
 **Modelo de datos propuesto para colectivos:** se cargan los horarios de salida de cada línea desde la terminal y los minutos de recorrido hasta cada parada. La app calcula la hora de pasada (salida + minutos). Mismo principio que el estándar GTFS. Son horarios estimados y la app debe indicarlo.
+
+## Navegación
+
+- Barra inferior con Inicio, Colectivos, Buffet, Novedades y Campus Live. Si Colectivos se descarta, quedan 4 secciones.
+- El panel de carga se accede por una dirección aparte (`/panel`) y no figura en la navegación pública.
 
 ## Requerimientos no funcionales
 
@@ -77,12 +91,18 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 - Panel de carga simple para personal sin conocimientos técnicos.
 - Accesibilidad según WCAG 2.2.
 - Usar "horarios programados" o "estimados", nunca "tiempo real", salvo que exista una fuente automatizada.
+- El reproductor no se reproduce automáticamente (datos móviles).
+- Datos personales mínimos, con aviso de uso.
+- Permisos por rol aplicados en el servidor.
+- La clave de la API de YouTube queda en el servidor, nunca en el código de la app.
+- Fecha de "última actualización" visible en precios y colectivos.
 
 ## Decisiones técnicas
 
 - **Diseño:** Figma.
-- **Demo:** GitHub Pages (solo sitios estáticos). Para la demo alcanza con datos en JSON; un backend externo solo si hay que mostrar el panel de carga funcionando.
-- **Stack, backend y estructura de carpetas:** sin definir. Se deciden en la etapa 7.
+- **Backend:** la app requiere backend con autenticación por los roles.
+- **API de YouTube:** cupo de 100 búsquedas por día; por eso la programación se carga a mano.
+- **Stack y estructura de carpetas:** sin definir. Se deciden en la etapa 7.
 - **Figma MCP:** para leer diseños de Figma y pasarlos a código.
 - **Playwright MCP:** para probar la app en navegador (celular, conexión lenta) en la etapa de testing.
 - **Skill Impeccable:** usarla solo como auditor y corrector (audit, critique, harden, clarify, adapt, optimize, polish). No usar bolder, overdrive, delight ni animate. Las decisiones visuales salen de Figma y de la marca del campus, no de la skill.
@@ -91,7 +111,6 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 ## Pendientes clave
 
 - Líneas de colectivo que pasan por el campus, empresas y si publican horarios.
-- Responsable de actualizar cada módulo.
 - Hosting y dominio a largo plazo: quién los paga (fuera del alcance del proyecto).
 - Turnos y horarios confirmados del campus.
 
@@ -110,3 +129,5 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 ## Documentación
 
 Relevamientos, planos, entrevistas y la planilla de funciones están en `docs/`.
+
+Etapa 3: el inventario de contenidos está en `docs/` y los mapas en FigJam (ETAPA 3 ARQ DE INFORMACIÓN).
