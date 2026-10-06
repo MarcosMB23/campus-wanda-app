@@ -18,7 +18,7 @@ El proyecto completo tiene cuatro ejes:
 - **Principal:** estudiantes de secundaria (EPET N° 48, Instituto Nuestra Señora del Iguazú, entre otras) que usan el campus entre turnos escolares.
 - **Secundarios:** cargan y actualizan los datos desde el panel de carga, con dos roles:
   - **Admin** (Dirección del campus): edita todo y administra las cuentas.
-  - **Buffet** (concesionario): solo carta, precios, menú del día, horario y WhatsApp del buffet.
+  - **Buffet** (concesionario): solo carta, precios, menú del día, horario, WhatsApp y el interruptor "Cerrado hoy".
 
 Los estudiantes no crean cuentas.
 
@@ -38,9 +38,9 @@ Doble Diamante (Descubrir, Definir, Desarrollar, Entregar) y los 5 planos de Jes
 | Etapa | Estado |
 |---|---|
 | 1. Investigación | Hecha |
-| 2. Definición de funciones | Casi cerrada |
-| 3. Arquitectura de información | En curso |
-| 4. Wireframes y prototipo (Figma) | Pendiente |
+| 2. Definición de funciones | Cerrada. Pendiente: confirmar la fuente de datos de colectivos. |
+| 3. Arquitectura de información | Cerrada. Pendientes menores: ubicación de la información general (pie del inicio u "Horario completo") y confirmar que tocar la sección actual estando en un detalle vuelve a la pantalla principal de la sección. |
+| 4. Wireframes y prototipo (Figma) | Siguiente etapa |
 | 5. UI con la marca del campus | Pendiente |
 | 6. Validación (test de usabilidad) | Pendiente |
 | 7. Arquitectura técnica | Pendiente |
@@ -63,25 +63,42 @@ Cierre de alcance: el alcance se cierra al empezar el prototipo. Las funciones n
 
 Una función sin fuente de datos ni responsable no puede ser Must.
 
-## Funciones en evaluación
+## Funciones
 
 | Función | Prioridad | Detalle |
 |---|---|---|
-| Horario del campus | Must | Estado abierto/cerrado en el inicio, horario semanal y excepciones. Carga: admin. |
-| Novedades | Must | Noticias y eventos del campus. Una novedad destacada aparece en el inicio. Carga: admin. |
-| Inscripción a eventos con cupo | Should | Sin cuenta: nombre, apellido y teléfono. Control de duplicados por teléfono en cada evento. Datos borrados después del evento. |
-| Buffet | Must | Carta, precios y botón de pedido por WhatsApp (wa.me). El menú del día es Could. Carga: rol buffet. |
-| Campus Live | Must (pedido por la Municipalidad) | Reproductor dentro de la app, programación y novedades exclusivas de Campus Live. Estado "en vivo" vía API de YouTube, consultada por el servidor cada 15 minutos. Carga de programación y novedades: admin. |
-| Horarios de colectivos | Should | Pendiente confirmar la fuente de datos. |
+| Horario del campus | Must | Estado abierto/cerrado en el inicio; horario semanal y excepciones en "Horario completo". Carga: admin. |
+| Novedades | Must | Noticias y eventos. Una novedad destacada aparece en el inicio. Campo "destino": General o Campus Live. Carga: admin. |
+| Inscripción a eventos con cupo | Should | Sin cuenta: nombre, apellido y teléfono. Un teléfono puede inscribir a varias personas (ej.: hermanos); el par nombre + teléfono es único por evento, comparando el nombre sin mayúsculas, tildes ni espacios de más. No se pide DNI (minimización de datos, Ley 25.326 art. 4). Datos borrados después del evento. |
+| Buffet | Must | Carta y precios siempre visibles. Botón de pedido por WhatsApp (wa.me) activo solo dentro del horario cargado por el buffet; fuera de horario, aviso "cerrado, abre a las X". Interruptor "Cerrado hoy" que se restablece solo al día siguiente. Menú del día: Could. |
+| Campus Live | Must (pedido por la Municipalidad) | Reproductor dentro de la app (sin reproducción automática), programación cargada a mano y 1 o 2 novedades exclusivas. Estado "en vivo" por API de YouTube, consultada por el servidor cada 15 minutos. |
+| Horarios de colectivos | Should | Pendiente fuente de datos. La app recuerda en el celular la última parada usada; por defecto, la del campus. |
 
-**Descartadas:** mapa interno (duplica la señalética), cuentas de estudiantes, últimas transmisiones.
+**Descartadas:** mapa interno, cuentas de estudiantes, últimas transmisiones.
 
 **Modelo de datos propuesto para colectivos:** se cargan los horarios de salida de cada línea desde la terminal y los minutos de recorrido hasta cada parada. La app calcula la hora de pasada (salida + minutos). Mismo principio que el estándar GTFS. Son horarios estimados y la app debe indicarlo.
 
 ## Navegación
 
-- Barra inferior con Inicio, Colectivos, Buffet, Novedades y Campus Live. Si Colectivos se descarta, quedan 4 secciones.
-- El panel de carga se accede por una dirección aparte (`/panel`) y no figura en la navegación pública.
+- Barra inferior: Inicio, Colectivos, Buffet, Novedades, Campus Live. Ícono + texto. Punto rojo en Campus Live cuando hay transmisión. Si se descarta Colectivos, quedan 4.
+- Tocar la sección en la que ya estás: no pasa nada.
+- Volver regresa a la pantalla de origen. Desde la pantalla principal de una sección, regresa al Inicio. Desde el Inicio, sale de la app.
+- Cambiar de sección con la barra no se acumula en el historial de Volver (el botón atrás del navegador debe respetar esto).
+- Atajos del Inicio (próximo colectivo, novedad destacada, En vivo ahora): Volver regresa al Inicio.
+- Desde "Inscripción confirmada", Volver regresa al detalle del evento, no al formulario.
+- Enlaces externos (WhatsApp, YouTube) se indican con ícono de enlace externo.
+- Panel: dirección aparte (`/panel`), menú según el rol, Volver regresa al inicio del panel, sesión vencida pide iniciar sesión y vuelve a la pantalla en la que estaba.
+
+## Estados a diseñar en wireframes
+
+- Campus cerrado y horario especial.
+- Sin más colectivos hoy.
+- Buffet cerrado y producto sin stock.
+- Cupo completo.
+- Persona ya anotada.
+- Error de envío.
+- Sin transmisión en vivo.
+- Error de campo en el panel.
 
 ## Requerimientos no funcionales
 
@@ -100,8 +117,8 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 ## Decisiones técnicas
 
 - **Diseño:** Figma.
-- **Backend:** la app requiere backend con autenticación por los roles.
-- **API de YouTube:** cupo de 100 búsquedas por día; por eso la programación se carga a mano.
+- **Backend:** obligatorio, con autenticación por los roles.
+- **API de YouTube:** la búsqueda tiene un cupo de 100 consultas por día; por eso la programación se carga a mano.
 - **Stack y estructura de carpetas:** sin definir. Se deciden en la etapa 7.
 - **Figma MCP:** para leer diseños de Figma y pasarlos a código.
 - **Playwright MCP:** para probar la app en navegador (celular, conexión lenta) en la etapa de testing.
@@ -128,6 +145,5 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 
 ## Documentación
 
-Relevamientos, planos, entrevistas y la planilla de funciones están en `docs/`.
-
-Etapa 3: el inventario de contenidos está en `docs/` y los mapas en FigJam (ETAPA 3 ARQ DE INFORMACIÓN).
+- Inventario de contenidos (vigente): https://docs.google.com/spreadsheets/d/1fChj3B5jwjhQJagW3sqGoWAqUAAX3ArWnE9qBIoiN6Y/edit?gid=588683704#gid=588683704
+- FigJam de la etapa 3 (mapas, flujos y navegación): https://www.figma.com/board/vsJ75rbz2edxVHa8HHgNhi
