@@ -20,9 +20,9 @@ En etapa de definición de funciones. Todavía no hay código.
 | Etapa | Estado |
 |---|---|
 | Investigación | Hecha |
-| Definición de funciones | En curso |
-| Arquitectura de información | Pendiente |
-| Wireframes y prototipo | Pendiente |
+| Definición de funciones | Hecha |
+| Arquitectura de información | Hecha |
+| Wireframes y prototipo | En curso |
 | UI | Pendiente |
 | Validación | Pendiente |
 | Desarrollo | Pendiente |
