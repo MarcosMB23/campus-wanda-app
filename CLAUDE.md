@@ -39,8 +39,8 @@ Doble Diamante (Descubrir, Definir, Desarrollar, Entregar) y los 5 planos de Jes
 |---|---|
 | 1. Investigación | Hecha |
 | 2. Definición de funciones | Cerrada. Pendiente: confirmar la fuente de datos de colectivos. |
-| 3. Arquitectura de información | Cerrada. Pendientes menores: ubicación de la información general (pie del inicio u "Horario completo") y confirmar que tocar la sección actual estando en un detalle vuelve a la pantalla principal de la sección. |
-| 4. Wireframes y prototipo (Figma) | Siguiente etapa |
+| 3. Arquitectura de información | Hecha |
+| 4. Wireframes y prototipo (Figma) | En curso |
 | 5. UI con la marca del campus | Pendiente |
 | 6. Validación (test de usabilidad) | Pendiente |
 | 7. Arquitectura técnica | Pendiente |
@@ -72,11 +72,18 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 | Inscripción a eventos con cupo | Should | Sin cuenta: nombre, apellido y teléfono. Un teléfono puede inscribir a varias personas (ej.: hermanos); el par nombre + teléfono es único por evento, comparando el nombre sin mayúsculas, tildes ni espacios de más. No se pide DNI (minimización de datos, Ley 25.326 art. 4). Datos borrados después del evento. |
 | Buffet | Must | Carta y precios siempre visibles. Botón de pedido por WhatsApp (wa.me) activo solo dentro del horario cargado por el buffet; fuera de horario, aviso "cerrado, abre a las X". Interruptor "Cerrado hoy" que se restablece solo al día siguiente. Menú del día: Could. |
 | Campus Live | Must (pedido por la Municipalidad) | Reproductor dentro de la app (sin reproducción automática), programación cargada a mano y 1 o 2 novedades exclusivas. Estado "en vivo" por API de YouTube, consultada por el servidor cada 15 minutos. |
-| Horarios de colectivos | Should | Pendiente fuente de datos. La app recuerda en el celular la última parada usada; por defecto, la del campus. |
+| Horarios de colectivos | Should | Solo Parada Campus. En pausa por F2. Detalle debajo de la tabla. |
 
 **Descartadas:** mapa interno, cuentas de estudiantes, últimas transmisiones.
 
-**Modelo de datos propuesto para colectivos:** se cargan los horarios de salida de cada línea desde la terminal y los minutos de recorrido hasta cada parada. La app calcula la hora de pasada (salida + minutos). Mismo principio que el estándar GTFS. Son horarios estimados y la app debe indicarlo.
+**Horarios de colectivos:**
+
+- Alcance reducido a una sola parada: Parada Campus. No se relevan otras paradas, no hay selector de parada ni parada recordada.
+- Cada pasada muestra: hora estimada, línea, destino y empresa. No se distingue ida o vuelta: el Campus está en el centro, entre Wanda, Pto. Esperanza y Pto. Libertad, y al estudiante solo le importa hacia dónde va el colectivo.
+- Modelo de datos: salida desde la terminal + minutos hasta el Campus (un valor por recorrido). Si la fuente publica directamente la hora de pasada por el Campus, se carga esa hora.
+- Justificación: planificar la salida del campus. No es orientación dentro del campus (eso lo resuelve la señalética).
+- Reducción consciente: no sirve para consultar otras paradas.
+- Sigue en pausa por F2 (fuente y responsable sin confirmar).
 
 ## Navegación
 
@@ -130,6 +137,8 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 - Líneas de colectivo que pasan por el campus, empresas y si publican horarios.
 - Hosting y dominio a largo plazo: quién los paga (fuera del alcance del proyecto).
 - Turnos y horarios confirmados del campus.
+- Novedades: agregar al inventario el campo "Imagen: descripción" (texto alternativo, WCAG 1.1.1), cargado por Admin.
+- Decisiones a validar en el test: pestaña "Live", tarjeta Live en segundo lugar del Inicio, tarjetas del Inicio tocables enteras.
 
 ## Instrucciones de interacción
 
@@ -147,3 +156,5 @@ Una función sin fuente de datos ni responsable no puede ser Must.
 
 - Inventario de contenidos (vigente): https://docs.google.com/spreadsheets/d/1fChj3B5jwjhQJagW3sqGoWAqUAAX3ArWnE9qBIoiN6Y/edit?gid=588683704#gid=588683704
 - FigJam de la etapa 3 (mapas, flujos y navegación): https://www.figma.com/board/vsJ75rbz2edxVHa8HHgNhi
+- Especificación de wireframes: `docs/wireframes.md`.
+- El archivo de Figma tiene las páginas Componentes, Referencias UI (inspiración para la etapa 5) y Decisiones (decisiones con motivo y qué validar en el test).
