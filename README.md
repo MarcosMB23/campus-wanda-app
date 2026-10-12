@@ -6,7 +6,8 @@ Forma parte del Trabajo Final de Grado de Diseño Gráfico de la Facultad de Art
 
 ## Objetivo
 
-Complementar la señalética del campus con información que cambia o que se consulta fuera del edificio. La app es una herramienta de apoyo: el uso del campus no depende de ella.
+Sumar un canal de conexión entre el Campus Estudiantil y sus estudiantes que reduzca la incertidumbre del día a día: cuándo pasa el próximo colectivo, si se puede almorzar en el campus, qué actividades hay. Facilita esos procesos tanto dentro como fuera del campus.
+No es una app de colectivos ni de pedidos de comida. Cada función existe para contribuir a la permanencia de los estudiantes en el campus y a una experiencia más amena. Es una herramienta de apoyo: el uso del campus no depende de ella.
 
 ## Usuarios
 
